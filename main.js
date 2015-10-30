@@ -2,7 +2,9 @@ var MIN_LEN = 12;
 var BIG_NBSP = "&nbsp;&nbsp;&nbsp;&nbsp;";
 
 var addWord = function() {
-    this.pw.push(words[Math.floor(Math.random() * words.length)]);
+    var randArr = window.crypto.getRandomValues(new Uint16Array(1));
+    var randNum = randArr * words.length / Math.pow(2, 16);
+    this.pw.push(words[Math.floor(randNum)]);
 }
 
 var updateText = function() {
@@ -22,7 +24,7 @@ var generateMinLenPw = function() {
     }
     updateText();
     $("#addWord").remove();
-    $("#pwgen").append("<a id='addWord'>" + BIG_NBSP + "Click to add a word</a>");
+    $("#pwgen").append("<button id='addWord'>Add a word</button>");
     $("#addWord").click(addWordToScreen.bind(this));
 };
 
@@ -30,7 +32,7 @@ $("#pwgen").remove();
 $("body").append("<div id='pwgen'></div>");
 $("body").append("<input type='checkbox' id='delimit'>Delimit with spaces?</input>");
 $("#pwgen").append("<span id='pw'></span>");
-$("#pwgen").append("<a id='genMinLen'>Click to generate an initial password</a>");
+$("#pwgen").append("<button id='genMinLen'>Generate an initial password</button>");
 
 this.pw = [];
 $("#genMinLen").click(generateMinLenPw.bind(this));
